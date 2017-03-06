@@ -3,7 +3,6 @@
 Simple macOS menubar system monitor, written in Python3.6 + pyobjc.
 
 ![Simon in Dark mode](screenshots/dark.png)
-![Simon in Light mode](screenshots/light.png)
 
 Only tested on **macOS Sierra 10.12.3**.
 
