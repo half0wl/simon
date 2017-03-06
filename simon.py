@@ -21,7 +21,6 @@
 # DEALINGS IN THE SOFTWARE.
 
 import psutil
-from datetime import datetime
 from PyObjCTools import AppHelper
 from Foundation import NSTimer, NSRunLoop
 from AppKit import NSApplication, NSStatusBar, NSMenu, NSMenuItem, \
