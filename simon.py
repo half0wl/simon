@@ -40,11 +40,49 @@ def bytes2human(n):
 class Simon(NSApplication):
 
     def finishLaunching(self):
+        self._setup_menuBar()
 
-        # Note: variable names here are camelCased to stay consistent with
-        # pyobjc (except menubar items).
+        # Create a timer which fires the update_ method every 1second,
+        # and add it to the runloop
+        NSRunLoop.currentRunLoop().addTimer_forMode_(
+            NSTimer
+            .scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_(
+                1, self, 'update:', '', True
+            ),
+            NSEventTrackingRunLoopMode
+        )
 
-        # Create the status & menu bar
+        print('Simon is now running.')
+        print('CTRL+C does not work here.')
+        print('You can quit through the menubar (Simon -> Quit).')
+
+    def update_(self, timer):
+
+        # System
+        cpu_usage = psutil.cpu_percent()
+        ram_usage = psutil.virtual_memory().percent
+        avail_mem = bytes2human(psutil.virtual_memory().available)
+        self.CPU_USAGE.setTitle_('CPU Usage: {}%'.format(cpu_usage))
+        self.RAM_USAGE.setTitle_('RAM Usage: {}%'.format(ram_usage))
+        self.RAM_AVAILABLE.setTitle_('Available Memory: {}'.format(avail_mem))
+
+        # Disk I/O
+        disk_io = psutil.disk_io_counters()
+        disk_data_read = bytes2human(disk_io.read_bytes)
+        disk_data_written = bytes2human(disk_io.write_bytes)
+
+        self.DATA_READ.setTitle_('Read: {}'.format(disk_data_read))
+        self.DATA_WRITTEN.setTitle_('Written: {}'.format(disk_data_written))
+
+        # Network
+        network_io = psutil.net_io_counters()
+        network_recv = bytes2human(network_io.bytes_recv)
+        network_sent = bytes2human(network_io.bytes_sent)
+
+        self.NETWORK_RECV.setTitle_('Received: {}'.format(network_recv))
+        self.NETWORK_SENT.setTitle_('Sent: {}'.format(network_sent))
+
+    def _setup_menuBar(self):
         statusBar = NSStatusBar.systemStatusBar()
         self.statusItem = statusBar.statusItemWithLength_(-1)
         self.menuBar = NSMenu.alloc().init()
@@ -113,49 +151,6 @@ class Simon(NSApplication):
 
         # Add menu to status bar
         self.statusItem.setMenu_(self.menuBar)
-
-        # Create our timer
-        self.timer = \
-            NSTimer \
-            .scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_(
-                1, self, 'update:', '', True
-            )
-
-        # Add our timer to the runloop
-        NSRunLoop.currentRunLoop().addTimer_forMode_(
-            self.timer,
-            NSEventTrackingRunLoopMode
-        )
-
-        print('Simon is now running.')
-        print('CTRL+C does not work here.')
-        print('You can quit through the menubar (Simon -> Quit).')
-
-    def update_(self, timer):
-
-        # System
-        cpu_usage = psutil.cpu_percent()
-        ram_usage = psutil.virtual_memory().percent
-        avail_mem = bytes2human(psutil.virtual_memory().available)
-        self.CPU_USAGE.setTitle_('CPU Usage: {}%'.format(cpu_usage))
-        self.RAM_USAGE.setTitle_('RAM Usage: {}%'.format(ram_usage))
-        self.RAM_AVAILABLE.setTitle_('Available Memory: {}'.format(avail_mem))
-
-        # Disk I/O
-        disk_io = psutil.disk_io_counters()
-        disk_data_read = bytes2human(disk_io.read_bytes)
-        disk_data_written = bytes2human(disk_io.write_bytes)
-
-        self.DATA_READ.setTitle_('Read: {}'.format(disk_data_read))
-        self.DATA_WRITTEN.setTitle_('Written: {}'.format(disk_data_written))
-
-        # Network
-        network_io = psutil.net_io_counters()
-        network_recv = bytes2human(network_io.bytes_recv)
-        network_sent = bytes2human(network_io.bytes_sent)
-
-        self.NETWORK_RECV.setTitle_('Received: {}'.format(network_recv))
-        self.NETWORK_SENT.setTitle_('Sent: {}'.format(network_sent))
 
     def _create_empty_menu_item(self):
         return NSMenuItem \
