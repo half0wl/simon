@@ -47,51 +47,69 @@ class Simon(NSApplication):
         # Create the status & menu bar
         statusBar = NSStatusBar.systemStatusBar()
         self.statusItem = statusBar.statusItemWithLength_(-1)
-        self.statusItem.setTitle_('Simon')
         self.menuBar = NSMenu.alloc().init()
 
-        # System
+        self.statusItem.setTitle_('Simon')
+
+        # Labels/buttons
         self.SYSTEM = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
             'System', 'doNothing:', ''
         )
+        self.DISKIO = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+            'Disk I/O', 'doNothing:', ''
+        )
+        self.NETWORK = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+            'Network', 'doNothing:', ''
+        )
+        self.QUIT = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+            'Quit', 'terminate:', ''
+        )
+
+        # System
         self.CPU_USAGE = self._create_empty_menu_item()
         self.RAM_USAGE = self._create_empty_menu_item()
         self.RAM_AVAILABLE = self._create_empty_menu_item()
 
-        self.menuBar.addItem_(self.SYSTEM)
+        # Disk I/O
+        self.DATA_READ = self._create_empty_menu_item()
+        self.DATA_WRITTEN = self._create_empty_menu_item()
+
+        # Network
+        self.NETWORK_RECV = self._create_empty_menu_item()
+        self.NETWORK_SENT = self._create_empty_menu_item()
+
+        '''
+        Add our items to the menuBar - yields the following output:
+
+        Simon
+            System
+                CPU Usage
+                RAM Usage
+                Available Memory
+            Disk I/O
+                Read
+                Written
+            Network
+                Received
+                Sent
+            -----------------------
+            Quit
+        '''
+        self.menuBar.addItem_(self.SYSTEM)  # system label
         self.menuBar.addItem_(self.CPU_USAGE)
         self.menuBar.addItem_(self.RAM_USAGE)
         self.menuBar.addItem_(self.RAM_AVAILABLE)
 
-        # Disk I/O
-        self.DISKIO = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
-            'Disk I/O', 'doNothing:', ''
-        )
-        self.DATA_READ = self._create_empty_menu_item()
-        self.DATA_WRITTEN = self._create_empty_menu_item()
-
-        self.menuBar.addItem_(self.DISKIO)
+        self.menuBar.addItem_(self.DISKIO)  # disk I/O label
         self.menuBar.addItem_(self.DATA_READ)
         self.menuBar.addItem_(self.DATA_WRITTEN)
 
-        # Network
-        self.NETWORK = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
-            'Network', 'doNothing:', ''
-        )
-        self.NETWORK_RECV = self._create_empty_menu_item()
-        self.NETWORK_SENT = self._create_empty_menu_item()
-
-        self.menuBar.addItem_(self.NETWORK)
+        self.menuBar.addItem_(self.NETWORK)  # network label
         self.menuBar.addItem_(self.NETWORK_RECV)
         self.menuBar.addItem_(self.NETWORK_SENT)
 
-        # Quit
-        self.QUIT = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
-            'Quit', 'terminate:', ''
-        )
-        self.SEPERATOR = NSMenuItem.separatorItem()
-        self.menuBar.addItem_(self.SEPERATOR)
-        self.menuBar.addItem_(self.QUIT)
+        self.menuBar.addItem_(NSMenuItem.separatorItem())  # seperator
+        self.menuBar.addItem_(self.QUIT)  # quit button
 
         # Add menu to status bar
         self.statusItem.setMenu_(self.menuBar)
@@ -111,7 +129,7 @@ class Simon(NSApplication):
 
         print('Simon is now running.')
         print('CTRL+C does not work here.')
-        print('You can quit through the menubar.')
+        print('You can quit through the menubar (Simon -> Quit).')
 
     def update_(self, timer):
 
