@@ -11,7 +11,7 @@ Only tested on **macOS Sierra 10.12.3** and **Python 3.6**.
 Simon depends on `pyobjc` and `psutil`.
 
 ```bash
-$ git clone https://github.com/hcyrnd/simon.git
+$ git clone https://github.com/half0wl/simon.git
 $ cd simon
 $ virtualenv .venv && source .venv/bin/activate
 $ pip install -r requirements.txt
