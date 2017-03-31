@@ -34,7 +34,7 @@ def bytes2human(n):
     symbols = (' B', ' KiB', ' MiB', ' GiB', ' TiB', ' PiB', ' EiB', ' ZiB',
                ' YiB')
     i = math.floor(math.log(abs(n)+1, 2) / 10)
-    return '%.1f%s' % (n/2**(i*10), symbols[i])
+    return '%.1f%s' % (n/2**(i*10), symbols[int(i)])
 
 
 class Simon(NSApplication):
