@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+
+from PyObjCTools import AppHelper
+from simon import Simon
+
+
+if __name__ == '__main__':
+    app = Simon.sharedApplication()
+    AppHelper.runEventLoop()

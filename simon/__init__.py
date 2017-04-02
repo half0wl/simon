@@ -1,1 +1,3 @@
-__version__ = '1.0'
+from .simon import Simon
+
+__version__ = '0.1'
