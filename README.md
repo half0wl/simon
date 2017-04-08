@@ -1,21 +1,24 @@
 # Simon
 
-Simple macOS menubar system monitor, written in Python.
+Simple menubar system monitor for macOS, written in Python with pyobjc.
 
 ![Simon Screenshot](screenshots/dark.png)
 
-Only tested on **macOS Sierra 10.12.3** and **Python 3.6**.
+Only tested on macOS Sierra, should work for El Capitan. Supports Python 2.7
+and 3.6, versions in between hasn't been tested.
 
 ## Installation & Usage
 
-Simon depends on `pyobjc` and `psutil`.
+Install with pip:
 
 ```bash
-$ git clone https://github.com/half0wl/simon.git
-$ cd simon
-$ virtualenv .venv && source .venv/bin/activate
-$ pip install -r requirements.txt
-$ python simon.py
+$ pip install simon_mac
+```
+
+To run Simon:
+
+```bash
+$ simon
 Simon is now running.
 CTRL+C does not work here.
 You can quit through the menubar (Simon -> Quit).
@@ -24,14 +27,13 @@ You can quit through the menubar (Simon -> Quit).
 To run Simon in the background, use `nohup`:
 
 ```bash
-$ nohup python simon.py &
+$ nohup simon &
 ```
 
-To quit Simon, quit through the menubar.
+To quit Simon, quit through the menubar (Simon -> Quit).
 
 ## Todo / Upcoming
 
-* Standalone .app
 * More stats - battery, temperature, etc.
 * Measure impact on system resources
 * Preferences/settings: allow user to set update interval, etc.
