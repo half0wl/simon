@@ -1,9 +1,24 @@
 #!/usr/bin/env python
 
+import sys
 from PyObjCTools import AppHelper
+
 from simon import Simon
 
 
+def suppress_dock_icon():
+    import objc, plistlib
+    path_to_current_bundle = objc.currentBundle().bundlePath()
+    path_to_plist = '{}/Contents/Info.plist'.format(path_to_current_bundle)
+    plist = plistlib.readPlist(path_to_plist)
+    plist['LSUIElement'] = '1'
+    plistlib.writePlist(plist, path_to_plist)
+    print('Done! Run Simon again.')
+
+
 if __name__ == '__main__':
-    app = Simon.sharedApplication()
-    AppHelper.runEventLoop()
+    if (len(sys.argv) > 1) and (sys.argv[1] == '--suppress-dock-icon'):
+        suppress_dock_icon()
+    else:
+        app = Simon.sharedApplication()
+        AppHelper.runEventLoop()
