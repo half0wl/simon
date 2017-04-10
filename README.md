@@ -24,6 +24,15 @@ CTRL+C does not work here.
 You can quit through the menubar (Simon -> Quit).
 ```
 
+To remove the Python rocketship icon from your dock (Note: not everyone will
+have the dock icon due to differences in Python installations. This **should**
+work, but if it doesn't, please open an issue.):
+
+```bash
+$ simon --suppress-dock-icon
+Done! Run Simon again.
+```
+
 To run Simon in the background, use `nohup`:
 
 ```bash
